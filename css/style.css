@@ -1,0 +1,322 @@
+/* ===== FONTS IMPORTED ===== */
+@import url('https://fonts.googleapis.com/css2?family=League+Spartan:wght@700&display=swap');
+
+/* ===== RESET ===== */
+*,
+*::after,
+*::before {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+button {
+    font: inherit;
+}
+
+/* == Remove animations when selected == */
+@media (prefers-reduced-motion: reduce) {
+    * {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+}
+
+/* ===== VARIABLES ===== */
+:root {
+    /* == Colors: Theme 1 == */
+    --clr-bg-primary: hsl(222, 26%, 31%);
+    --clr-bg-secondary: hsl(223, 31%, 20%);
+    --clr-bg-tertiary: hsl(224, 36%, 15%);
+    --clr-del-key: hsl(225, 21%, 49%);
+    --clr-del-key-shadow: hsl(224, 28%, 35%);
+    --clr-equal-key-n-toggle: hsl(6, 63%, 50%);
+    --clr-equal-key-n-toggle-before: var(--clr-equal-key-n-toggle);
+    --clr-equal-key-shadow: hsl(6, 70%, 34%);
+    --clr-digit-key: hsl(30, 25%, 89%);
+    --clr-digit-key-shadow: hsl(28, 16%, 65%);
+
+    --clr-digit-key-text: hsl(221, 14%, 31%);
+    --clr-text: hsl(0, 0%, 100%);
+    --clr-del-reset-text: hsl(0, 0%, 100%);
+
+    --ff-main: 'League Spartan';
+    --fs-title: 1.98rem;
+
+    --switch-toggle: translatex(0); /* 1.36rem / 2.81rem*/
+}
+
+/* == Colors: Theme 2 == */
+body.theme-two {
+    --clr-bg-primary: hsl(0, 0%, 90%);
+    --clr-bg-secondary: hsl(0, 5%, 81%);
+    --clr-bg-tertiary: hsl(0, 0%, 93%);
+    --clr-del-key: hsl(185, 42%, 37%);
+    --clr-del-key-shadow: hsl(185, 58%, 25%);
+    --clr-equal-key-n-toggle: hsl(25, 98%, 40%);
+    --clr-equal-key-n-toggle-before: var(--clr-equal-key-n-toggle);
+    --clr-equal-key-shadow: hsl(25, 99%, 27%);
+
+    --clr-digit-key: hsl(45, 7%, 89%);
+    --clr-digit-key-shadow: hsl(35, 11%, 61%);
+    --clr-digit-key-text: hsl(60, 10%, 19%);
+    --clr-text: hsl(60, 10%, 19%);
+}
+
+/* == Colors: Theme 3 == */
+body.theme-three {
+    --clr-bg-primary: hsl(268, 75%, 9%);
+    --clr-bg-secondary: hsl(268, 71%, 12%);
+    --clr-bg-tertiary: hsl(268, 71%, 12%);
+    --clr-del-key: hsl(281, 89%, 26%);
+    --clr-del-key-shadow: hsl(285, 91%, 52%);
+    --clr-equal-key-n-toggle: hsl(176, 100%, 44%);
+    --clr-equal-key-n-toggle-before: var(--clr-equal-key-n-toggle);
+    --clr-equal-key-shadow: hsl(177, 92%, 70%);
+
+    --clr-digit-key: hsl(268, 47%, 21%);
+    --clr-digit-key-shadow: hsl(290, 70%, 36%);
+    --clr-digit-key-text: hsl(52, 100%, 62%);
+    --clr-text: hsl(52, 100%, 62%);
+}
+
+body {
+    font-family: var(--ff-main), arial;
+    background-color: var(--clr-bg-primary);
+}
+
+.calc {
+    padding-inline: 1.5rem;
+    padding-block: 2.2rem 0;
+    max-width: 36.75rem;
+    margin: auto;
+}
+
+/* ===== TITLE AND THEMES ===== */
+.calc__header {
+    display: flex;
+    padding-inline: .465rem 0;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.calc__title {
+    color: var(--clr-text);
+    text-transform: lowercase;
+    font-size: var(--fs-title);
+    letter-spacing: -0.035rem;
+    flex: 1;
+}
+
+.calc__theme {
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    gap: 1.68rem;
+}
+
+.calc__theme p:not(.calc__1-2-3) {
+    font-size: .75rem;
+    text-transform: uppercase;
+    letter-spacing: .05rem;
+    color: var(--clr-text);
+    transform: translateY(-5px);
+}
+
+.calc__theme-numbers {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    gap: .95rem;
+    font-size: .75rem;
+    color: var(--clr-text);
+    cursor: pointer;
+}
+
+.calc__numbers::after {
+    content: '';
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    background-color: var(--clr-equal-key-n-toggle);
+    border-radius: 50%;
+    z-index: 10;
+    top: 1.34rem;
+    opacity: 0;
+    transition: opacity 100ms ease-in;
+}
+
+.calc__1::after {
+    left: -.3rem;
+}
+
+.calc__2::after {
+    left: calc(-.3rem / 2);
+}
+
+.calc__3::after {
+    right: -.3rem;
+}
+
+.calc__numbers:hover::after {
+    opacity: .15;
+}
+
+/* == Toggle button == */
+.calc__toggle {
+    position: relative;
+    width: 71px;
+    height: 26px;
+    border-radius: 1rem;
+    background-color: var(--clr-bg-secondary);
+    z-index: -1;
+}
+
+.calc__toggle::before {
+    content: '';
+    position: absolute;
+    background-color: var(--clr-equal-key-n-toggle-before);
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    left: .32rem;
+    transform: var(--switch-toggle);
+    top: .3rem;
+    cursor: pointer;
+    transition: 500ms;
+}
+
+/* ===== THE CALCULATED RESULT DISPLAY ===== */
+.calc__result-display {
+    position: relative;
+    background-color: var(--clr-bg-tertiary);
+    padding-block: 1.6rem;
+    padding-inline: 1.55rem;
+    text-align: end;
+    border-radius: .6rem;
+    color: var(--clr-text);
+    margin-bottom: 1.5rem;
+    overflow: hidden;
+}
+.calc__calculated-values {
+    display: flex;
+    justify-content: end;
+    gap: 1.5rem;
+}
+
+#result-display {
+    position: absolute;
+    right: 1.6rem;
+    top: .8rem;
+    font-size: 1.2rem;
+    opacity: .7;
+}
+
+
+#display {
+    font-size: 2.465rem;
+    letter-spacing: -.03rem;
+}
+
+.errorAnimation {
+    animation: error .3s;
+}
+
+@keyframes error {
+    0% {transform: translateX(10px);}
+    20% {transform: translateX(-15px);}
+    40% {transform: translateX(15px);}
+    60% {transform: translateX(-10px);}
+    80% {transform: translateX(11px);}
+    100% {transform: translateX(-5px);}
+}
+
+#calculated-value {
+    font-size: 2.465rem;
+    letter-spacing: -.03rem;
+}
+
+
+/* ===== THE CALCULATOR DIGITS ===== */
+.calc__digits-container {
+    position: relative;
+    background-color: var(--clr-bg-secondary);
+    font-weight: 700;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(5, 4.1rem);
+    gap: .7rem;
+    padding: 1.44rem;
+    font-size: 2rem;
+    
+    
+}
+
+[data-action="del"],
+[data-action="reset"] {
+    font-size: 1.2rem !important;
+    background-color: var(--clr-del-key) !important;
+    box-shadow: inset 0 -.35rem var(--clr-del-key-shadow) !important;
+    color: var(--clr-del-reset-text) !important;
+}
+
+[data-action="calculate"] {
+    background-color: var(--clr-equal-key-n-toggle) !important;
+    box-shadow: inset 0 -.35rem var(--clr-equal-key-shadow) !important;
+    color: var(--clr-digit-key) !important;
+}
+
+[data-operators="multiply"] p {
+    position: relative;
+    text-transform: lowercase;
+    /* top: .5rem; */
+}
+
+.calc__digits {
+    border-radius: .3rem;
+    border: none;
+    background-color: var(--clr-digit-key);
+    color: var(--clr-digit-key-text);
+    text-transform: uppercase;
+    box-shadow: inset 0 -.35rem var(--clr-digit-key-shadow);
+    cursor: pointer;
+}
+
+.calc__digits:active {
+    box-shadow: inset 0 -.25rem var(--clr-digit-key-shadow);
+    font-size: 1.85rem;
+}
+
+.spanX {
+    grid-column: span 2;
+}
+
+
+@media screen and (min-width:40em) {
+    body {
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    .calc {
+        padding-block: unset;
+        width: 36.75rem;
+    }
+
+    .calc__result-display {
+        padding-block: 2.4rem;
+    }
+
+    #result-display {
+        font-size: 1.45rem;
+    }
+
+    #display {
+        font-size: 3.45rem;
+        letter-spacing: -.035rem;
+    }
+}

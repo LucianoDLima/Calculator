@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- displays site properly based on user's device -->
+
+  <link rel="icon" type="image/png" sizes="32x32" href="./images/favicon-32x32.png">
+  
+  <title>Frontend Mentor | Calculator app</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="js/4th.js" defer></script>
+  <script src="js/themes.js" defer></script>
+</head>
+<body>
+  <main>
+    <article class="calc">
+      <!-- Title and themes -->
+      <div class="calc__header">
+        <h1 class="calc__title">Calc</h1>
+        <div class="calc__theme">
+          <p>Theme</p>
+          <div class="calc__theme-options">
+            <div class="calc__theme-numbers">
+              <p class="calc__1 calc__numbers">1</p>
+              <p class="calc__2 calc__numbers">2</p>
+              <p class="calc__3 calc__numbers">3</p>
+            </div>
+            <div class="calc__toggle theme-one"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- The calculated result display -->
+      <div class="calc__result-display">
+        <p id="result-display"></p>
+        <div class="calc__calculated-values">
+          <!-- <p id="calculated-value"></p> -->
+          <p id="display">0</p>
+        </div>
+      </div>
+
+      <!-- The calculator digits -->
+      <div class="calc__digits-container">
+        <button class="calc__digits" data-number>7</button>
+        <button class="calc__digits" data-number>8</button>
+        <button class="calc__digits" data-number>9</button>
+        <button class="calc__digits" data-action="del">Del</button>
+        <button class="calc__digits" data-number>4</button>
+        <button class="calc__digits" data-number>5</button>
+        <button class="calc__digits" data-number>6</button>
+        <button class="calc__digits" data-operators="add">+</button>
+        <button class="calc__digits" data-number>1</button>
+        <button class="calc__digits" data-number>2</button>
+        <button class="calc__digits" data-number>3</button>
+        <button class="calc__digits" data-operators="subtract">-</button>
+        <button class="calc__digits" data-number>.</button>
+        <button class="calc__digits" data-number>0</button>
+        <button class="calc__digits" data-operators="divide">/</button>
+        <button class="calc__digits" data-operators="multiply"><p>x</p></button>
+        <button class="calc__digits spanX" data-action="reset">Reset</button>
+        <button class="calc__digits spanX" data-action="calculate">=</button>
+      </div>
+    </article>
+  </main>
+  
+</body>
+</html>
