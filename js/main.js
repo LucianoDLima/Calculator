@@ -30,14 +30,20 @@ digits.forEach(item => {
 
             default:
                 if(display.innerText === '0' && e.target.innerText !== '.') display.innerText = '';
+                if(display.classList.contains('js-calculated')){
+                    display.classList.remove('js-calculated');
+                    display.classList.remove('js-numbersArrayChange')
+                    beforeOperator = '';
+                    display.innerText = '';
+                }
                 
                 if(!display.classList.contains('js-numbersArrayChange')) {
                     display.innerText += e.target.innerText;
-                    beforeOperator += e.target.innerText
+                    beforeOperator += e.target.innerText;
                 }
                 else {
                     display.innerText += e.target.innerText;
-                    afterOperator += e.target.innerText
+                    afterOperator += e.target.innerText;
                 }
                 debug();
         }
@@ -57,6 +63,7 @@ operators.forEach(item => {
 
         display.innerText += e.target.innerText;
         currentOperator = e.target.innerText
+        display.classList.remove('js-calculated');
         display.classList.add('js-numbersArrayChange');
         display.classList.add('js-decimalArrayChange');
         
@@ -82,7 +89,7 @@ actions.forEach(item => {
 
             case '=':
                 neverDivideByZero();
-                if(!afterOperator.length) {
+                if(!afterOperator.length || afterOperator.length === 1 && afterOperator === '.'){
                     checkForError(); 
                     return;
                 }
@@ -133,6 +140,7 @@ function calculateDisplayValues() {
 
     clearValues('all');
     beforeOperator = display.innerText
+    display.classList.add('js-calculated')
 }
 
 function checkForError(){
@@ -141,6 +149,7 @@ function checkForError(){
         display.classList.remove('errorAnimation')
     }, 500)
 } 
+
 function neverDivideByZero() {
     if(afterOperator === '0') {
         result.innerText = ''
