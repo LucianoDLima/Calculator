@@ -11,8 +11,13 @@ let beforeOperator = [];
 let currentOperator = [];
 let afterOperator = [];
 
+let decimalArrayChange = false;
+let numbersArrayChange = false;
+let displayCalculated = false;
+
 function debug() {
     console.log('Before: ' + beforeOperator, 'Current: ' + currentOperator, 'After: ' + afterOperator)
+    console.log('Decimal: ' + decimalArrayChange + ' / ', 'Numbers: ' + numbersArrayChange + ' / ', 'Calculated: ' + displayCalculated)
 }
 
 digits.forEach(item => {
@@ -20,12 +25,12 @@ digits.forEach(item => {
         switch(e.target.innerText) {
             case '.': 
                 if(afterOperator.includes('.')) {
-                    display.classList.add('js-decimalArrayChange')
+                    decimalArrayChange = true;
                     checkForError();
                     return
                 }
 
-                if(beforeOperator.includes('.') && display.classList.contains('js-decimalArrayChange')) {
+                if(beforeOperator.includes('.') && decimalArrayChange == true) {
                     checkForError();
                     return
                 }
@@ -33,14 +38,14 @@ digits.forEach(item => {
 
             default:
                 if(display.innerText === '0' && e.target.innerText !== '.') display.innerText = '';
-                if(display.classList.contains('js-calculated')){
-                    display.classList.remove('js-calculated');
-                    display.classList.remove('js-numbersArrayChange')
+                if(displayCalculated === true){
+                    displayCalculated = false;
+                    numbersArrayChange = false;
                     beforeOperator = '';
                     display.innerText = '';
                 }
                 
-                if(!display.classList.contains('js-numbersArrayChange')) {
+                if(numbersArrayChange === false) {
                     display.innerText += e.target.innerText;
                     beforeOperator += e.target.innerText;
                 }
@@ -70,9 +75,9 @@ operators.forEach(item => {
 
         display.innerText += e.target.innerText;
         currentOperator = e.target.innerText
-        display.classList.remove('js-calculated');
-        display.classList.add('js-numbersArrayChange');
-        display.classList.add('js-decimalArrayChange');
+        displayCalculated = false;
+        numbersArrayChange = true;
+        decimalArrayChange = true;
         
         debug()
     })
@@ -82,17 +87,17 @@ actions.forEach(item => {
     item.addEventListener('click', (e) => {
         switch(e.target.innerText) {
             case 'DEL':
-                if(display.classList.contains('js-calculated')) {
+                if(displayCalculated === true) {
                     display.innerText = '0';
-                    display.classList.remove('js-calculated')
-                    display.classList.remove('js-numbersArrayChange')
+                    numbersArrayChange = true;
+                    decimalArrayChange = true;
                     clearValues();
                 }
 
                 if(display.innerText.length == 1) {
                     display.innerText = '0';
-                    display.classList.remove('js-calculated')
-                    display.classList.remove('js-numbersArrayChange')
+                    displayCalculated = false;
+                    numbersArrayChange = true;
                 }
                 else {
                     display.innerText = display.innerText.slice(0, -1)
@@ -103,7 +108,7 @@ actions.forEach(item => {
                 }
                 else if(currentOperator && !afterOperator) {
                     currentOperator = '';
-                    display.classList.remove('js-numbersArrayChange');
+                    numbersArrayChange = false;
                 }
                 else if(!currentOperator){
                     beforeOperator = beforeOperator.slice(0, -1);
@@ -112,9 +117,9 @@ actions.forEach(item => {
                 break
 
             case 'RESET': 
-                display.classList.remove('js-numbersArrayChange')
-                display.classList.remove('js-decimalArrayChange')
-                display.classList.remove('js-calculated')
+                decimalArrayChange = false;
+                numbersArrayChange = false;
+                displayCalculated = false;
                 display.innerText = '0';
                 result.innerText = '';
                 clearValues();
@@ -163,9 +168,9 @@ function calculateDisplayValues() {
     }
 
     clearValues();
-    beforeOperator = display.innerText
-    display.classList.add('js-calculated')
-    display.classList.remove('js-decimalArrayChange')
+    beforeOperator = display.innerText;
+    displayCalculated = true;
+    decimalArrayChange = false;
 }
 
 function checkForError(){
