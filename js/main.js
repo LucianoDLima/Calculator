@@ -19,14 +19,17 @@ digits.forEach(item => {
     item.addEventListener('click', (e) =>{
         switch(e.target.innerText) {
             case '.': 
-                if(beforeOperator.includes('.') && !display.classList.contains('js-decimalArrayChange')) {
+                if(afterOperator.includes('.')) {
+                    display.classList.add('js-decimalArrayChange')
                     checkForError();
                     return
                 }
-                if(afterOperator.includes('.') && display.classList.contains('js-decimalArrayChange')) {
+
+                if(beforeOperator.includes('.') && display.classList.contains('js-decimalArrayChange')) {
                     checkForError();
                     return
                 }
+                
 
             default:
                 if(display.innerText === '0' && e.target.innerText !== '.') display.innerText = '';
@@ -61,6 +64,10 @@ operators.forEach(item => {
             display.innerText = display.innerText.slice(0, -1);
         }
 
+        if(display.innerText === '0') {
+            beforeOperator = '0';
+        }
+
         display.innerText += e.target.innerText;
         currentOperator = e.target.innerText
         display.classList.remove('js-calculated');
@@ -75,15 +82,42 @@ actions.forEach(item => {
     item.addEventListener('click', (e) => {
         switch(e.target.innerText) {
             case 'DEL':
+                if(display.classList.contains('js-calculated')) {
+                    display.innerText = '0';
+                    display.classList.remove('js-calculated')
+                    display.classList.remove('js-numbersArrayChange')
+                    clearValues();
+                }
+
+                if(display.innerText.length == 1) {
+                    display.innerText = '0';
+                    display.classList.remove('js-calculated')
+                    display.classList.remove('js-numbersArrayChange')
+                }
+                else {
+                    display.innerText = display.innerText.slice(0, -1)
+                }
+
+                if(afterOperator) {
+                    afterOperator = afterOperator.slice(0, -1);
+                }
+                else if(currentOperator && !afterOperator) {
+                    currentOperator = '';
+                    display.classList.remove('js-numbersArrayChange');
+                }
+                else if(!currentOperator){
+                    beforeOperator = beforeOperator.slice(0, -1);
+                }
                 debug()
                 break
 
             case 'RESET': 
                 display.classList.remove('js-numbersArrayChange')
                 display.classList.remove('js-decimalArrayChange')
+                display.classList.remove('js-calculated')
                 display.innerText = '0';
                 result.innerText = '';
-                clearValues('all');
+                clearValues();
                 debug()
                 break
 
@@ -102,23 +136,13 @@ actions.forEach(item => {
 })
 
 /* Clear the values inside the array, but not the display nor the js-classes! */
-function clearValues(object) {
-    if(object === 'all') {
-        beforeOperator = '';
-        currentOperator = '';
-        afterOperator = '';
-    }
-
-    else if (object === 'first') {
-        beforeOperator = '';
-    }
-
-    else if (object === 'second') {
-        afterOperator = '';
-    }
+function clearValues() {
+    beforeOperator = '';
+    currentOperator = '';
+    afterOperator = '';
 }
 
-/* Calculate the displayed valued, empty the array, then add the calculated value in the array again */
+/* Calculate the displayed valued, empty the arrays, then add the calculated value in the first array again */
 function calculateDisplayValues() {
     result.innerText = display.innerText + ' =';
 
@@ -138,9 +162,10 @@ function calculateDisplayValues() {
         display.innerText = parseFloat(beforeOperator) / parseFloat(afterOperator)
     }
 
-    clearValues('all');
+    clearValues();
     beforeOperator = display.innerText
     display.classList.add('js-calculated')
+    display.classList.remove('js-decimalArrayChange')
 }
 
 function checkForError(){
